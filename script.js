@@ -4,6 +4,7 @@
 const check_btn = document.querySelector(".check");
 const numberEl = document.querySelector(".number");
 const GuesInput = document.querySelector(".guess");
+const again_btn = document.querySelector(".again");
 
 let score = 20;
 let high_score = 0;
@@ -23,18 +24,35 @@ let numDisplay = function(numMsg){
 // storing timeout
 let messageTimer;
 
+// chances
+let chances = 5;
 
 // creating a randome number
-const random_number = Math.floor(Math.random() * 20 ) + 1;
+let random_number = Math.floor(Math.random() * 20 ) + 1;
 console.log(random_number)
 
-// Chekc Button event fanctionality
+// Chekc Button fanctionality
 check_btn.addEventListener('click', function() {
 
-    const guess = Number(document.querySelector(".guess").value);
+    let guess = Number(document.querySelector(".guess").value);
 
     // clearing timeout id
     clearTimeout(messageTimer)
+
+
+    if (guess !== random_number) {
+        chances-=1;
+
+        if (chances == 0) {
+            desplayMessage("You have lost the game.");
+            document.body.style.backgroundColor = 'red';
+            return;
+        };
+    }
+
+    // resting color to it's normal state
+    document.body.style.backgroundColor = '';
+
 
     if(!guess){
         desplayMessage("⛔️ No number!")
@@ -60,20 +78,29 @@ check_btn.addEventListener('click', function() {
 
     else if (guess > random_number) {
         desplayMessage('📈 Too high!');
-    } else if (guess < random_number) {
+    } 
+    
+    else if(guess < random_number){
         desplayMessage('📉 Too low!');
     }
 
 
-    else {
-        desplayMessage("❌  Wrong guess");
-
-        setTimeout(()=> {
-            desplayMessage('Start guessing...')
-        }, 1000);
-    }
-
-    
-
+    // clearing input field
     GuesInput.value = '';
-})
+});
+
+
+
+
+// Again Button functionality
+again_btn.addEventListener('click', function() {
+    random_number = Math.floor(Math.random() * 20 ) + 1;
+
+    chances = 5;
+    desplayMessage('Start guessing...');
+    numDisplay("?");
+    numberEl.style.width = '15rem';
+    GuesInput.value = '';
+    document.body.style.backgroundColor = '#222';
+    
+});
