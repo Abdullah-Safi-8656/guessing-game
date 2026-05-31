@@ -26,7 +26,7 @@ let messageTimer;
 
 // creating a randome number
 const random_number = Math.floor(Math.random() * 20 ) + 1;
-
+console.log(random_number)
 
 // Chekc Button event fanctionality
 check_btn.addEventListener('click', function() {
